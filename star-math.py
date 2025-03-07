@@ -80,20 +80,47 @@ def get_star_colour(star_temperature: float):
     Returns a Star's Colour in RGB.
     Requires the Star's Temperature in Kelvin.
     """
+    min_temp = 0
+    max_temp = 0
+    colour_min = (0,0,0)
+    colour_max = (0,0,0)
+
     if (star_temperature <= 3700):
-        return COLOUR_M
+        min_temp = 0
+        max_temp = 3700
+        colour_max = COLOUR_M
     elif (star_temperature > 3700 and star_temperature <= 5200):
-        return COLOUR_K
+        min_temp = 3700
+        max_temp = 5200
+        colour_min = COLOUR_M
+        colour_max = COLOUR_K
     elif (star_temperature > 5200 and star_temperature <= 6000):
-        return COLOUR_G
+        min_temp = 5200
+        max_temp = 6000
+        colour_min = COLOUR_K
+        colour_max = COLOUR_G
     elif (star_temperature > 6000 and star_temperature <= 7500):
-        return COLOUR_F
+        min_temp = 6000
+        max_temp = 7500
+        colour_min = COLOUR_G
+        colour_max = COLOUR_F
     elif (star_temperature > 7500 and star_temperature <= 10000):
-        return COLOUR_A
+        min_temp = 7500
+        max_temp = 10000
+        colour_min = COLOUR_F
+        colour_max = COLOUR_A
     elif (star_temperature > 10000 and star_temperature <= 33000):
-        return COLOUR_B
+        min_temp = 10000
+        max_temp = 33000
+        colour_min = COLOUR_A
+        colour_max = COLOUR_O
     else:
         return COLOUR_O
+    temp_ratio = (star_temperature - min_temp) / (max_temp - min_temp)
+    colour_0 = colour_min[0] + int((colour_max[0] - colour_min[0]) * temp_ratio)
+    colour_1 = colour_min[1] + int((colour_max[1] - colour_min[1]) * temp_ratio)
+    colour_2 = colour_min[2] + int((colour_max[2] - colour_min[2]) * temp_ratio)
+    return (colour_0, colour_1, colour_2)
 
 def get_star_habitable_zone(star_luminosity: float):
     """
